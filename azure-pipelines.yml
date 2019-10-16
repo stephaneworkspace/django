@@ -32,7 +32,7 @@ steps:
     password: '$(ftp-password)'
     rootDirectory: '$(Build.ArtifactStagingDirectory)'
     filePatterns: '**'
-    remoteDirectory: '/home/$(ftp-user)/djangotest/$(Build.BuildId)/'
+    remoteDirectory: '/home/$(ftp-user)/ftp/build/$(Build.BuildId)/'
     clean: false
     cleanContents: false
     preservePaths: false
