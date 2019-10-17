@@ -14,7 +14,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['localhost']
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)  # noqa: F405
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)  # noqa: F405
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # noqa: F405
 
