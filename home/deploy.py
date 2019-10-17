@@ -15,7 +15,7 @@ from home.deploy_security_key import SECRET_KEY as sk
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['164.132.99.183'] #localhost
+ALLOWED_HOSTS = ['localhost']
 
 # DATABASES['default'] = dj_database_url.config(conn_max_age=600)  # noqa: F405
 
