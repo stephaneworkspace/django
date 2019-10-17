@@ -25,7 +25,7 @@ SECRET_KEY = '5!k24b8at_+bumsosi4dxa41mi6-tbl@am)&j+$m-7%9%3g1)8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'stephane-bressani.ch', 'www.stephane-bressani.ch']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'stephane-bressani.ch', 'www.stephane-bressani.ch']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,10 @@ ROOT_URLCONF = 'home.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+                os.path.join(BASE_DIR, 'templates'),
+                os.path.join(BASE_DIR, 'home', 'templates', 'home'),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
