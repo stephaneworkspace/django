@@ -13,6 +13,13 @@ pool:
 variables:
   PYTHON_VERSION: '3.7'
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo '# Security key
+          SECRET_KEY = '$(security-key)' >> ./home/deploy_security_key.py
+
+
 steps:
 - task: ArchiveFiles@2
   inputs:

@@ -7,6 +7,8 @@ import dj_database_url
 
 from . import *  # noqa: F403
 from home.settings import BASE_DIR
+from home.deploy_security_key import SECRET_KEY as sk
+
 
 # This is NOT a complete production settings file. For more, see:
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
@@ -18,5 +20,7 @@ ALLOWED_HOSTS = ['localhost']
 # DATABASES['default'] = dj_database_url.config(conn_max_age=600)  # noqa: F405
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # noqa: F405
+
+SECRET_KEY = sk
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
