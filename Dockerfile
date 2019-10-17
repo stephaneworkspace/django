@@ -10,7 +10,8 @@ ADD . /home
 
 WORKDIR /home
 
-ENV DJANGO_SETTINGS_MODULE=home.deploy 
+# For future production mode
+# ENV DJANGO_SETTINGS_MODULE=home.deploy 
 
 RUN pip install -r requirements.txt
 
