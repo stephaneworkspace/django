@@ -73,13 +73,9 @@ ENV UWSGI_STATIC_MAP="/static/=/code/static/" UWSGI_STATIC_EXPIRES_URI="/static/
 # ENV UWSGI_ROUTE_HOST="^(?!localhost:8000$) break:400"
 
 # Uncomment after creating your docker-entrypoint.sh
-#ENTRYPOINT ["/code/docker-entrypoint.sh"]
-
-# Later
+ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
 # Start uWSGI
 # CMD ["/venv/bin/uwsgi", "--show-config"]
 
-# Later
-
-CMD [ "python", "./manage.py runserver 0.0.0.0:80" ]
+# LATER !!!
