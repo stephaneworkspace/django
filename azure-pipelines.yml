@@ -16,9 +16,8 @@ variables:
 steps:
 - task: CmdLine@2
   inputs:
-    script: |
-      echo '# Security key
-          SECRET_KEY = $(security-key)' >> ./home/deploy_security_key.py
+    script: 
+      echo 'SECRET_KEY = $(security-key)' >> ./home/deploy_security_key.py
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
