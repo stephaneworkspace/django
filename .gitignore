@@ -104,3 +104,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# astro_py
+home/astropyfr/
