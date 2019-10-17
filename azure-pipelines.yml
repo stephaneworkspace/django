@@ -17,6 +17,10 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 
+      rm -rf ./home/deploy_security_key.py
+- task: CmdLine@2
+  inputs:
+    script: 
       echo 'SECRET_KEY = $(security-key)' >> ./home/deploy_security_key.py
 - task: ArchiveFiles@2
   inputs:
