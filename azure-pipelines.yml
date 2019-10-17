@@ -18,7 +18,7 @@ steps:
   inputs:
     script: |
       echo '# Security key
-          SECRET_KEY = '$(security-key)' >> ./home/deploy_security_key.py
+          SECRET_KEY = $(security-key)' >> ./home/deploy_security_key.py
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
