@@ -15,9 +15,7 @@ variables:
 
 - task: CmdLine@2
   inputs:
-    script: |
-      echo '# Security key
-          SECRET_KEY = $(security-key)' >> ./home/deploy_security_key.py
+    script: 'SECRET_KEY = $(security-key)' >> ./home/deploy_security_key.py
 
 
 steps:
