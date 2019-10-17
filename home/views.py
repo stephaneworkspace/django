@@ -7,4 +7,4 @@ def index(request):
 
 def hello(request):
     astro = astropyfr.astropyfr('2000/04/04', '12:24', '+02:00', '46n12', '6e9')
-    return HttpResponse("Hello, world. You're at the polls index." + astro.get_data())
+    return HttpResponse(astro.get_data())
