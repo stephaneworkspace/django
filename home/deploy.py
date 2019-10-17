@@ -6,6 +6,7 @@ import os
 import dj_database_url
 
 from . import *  # noqa: F403
+from home.settings import BASE_DIR
 
 # This is NOT a complete production settings file. For more, see:
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
