@@ -43,13 +43,19 @@ WORKDIR /code/
 ADD . /code/
 
 # uWSGI will listen on this port
-EXPOSE 8000
+EXPOSE 80
 
 # Add any static environment variables needed by Django or your settings file here:
 ENV DJANGO_SETTINGS_MODULE=home.deploy 
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-RUN DATABASE_URL='' /venv/bin/python manage.py collectstatic --noinput
+# RUN DATABASE_URL='' /venv/bin/python manage.py collectstatic --noinput
+
+
+# LATER !!!
+
+
+
 
 # Tell uWSGI where to find your wsgi file (change this):
 ENV UWSGI_WSGI_FILE=home/wsgi.py
@@ -67,7 +73,13 @@ ENV UWSGI_STATIC_MAP="/static/=/code/static/" UWSGI_STATIC_EXPIRES_URI="/static/
 # ENV UWSGI_ROUTE_HOST="^(?!localhost:8000$) break:400"
 
 # Uncomment after creating your docker-entrypoint.sh
-ENTRYPOINT ["/code/docker-entrypoint.sh"]
+#ENTRYPOINT ["/code/docker-entrypoint.sh"]
+
+# Later
 
 # Start uWSGI
-CMD ["/venv/bin/uwsgi", "--show-config"]
+# CMD ["/venv/bin/uwsgi", "--show-config"]
+
+# Later
+
+CMD [ "python", "./manage.py runserver 0.0.0.0:80" ]
