@@ -46,8 +46,7 @@ ADD . /code/
 EXPOSE 8000
 
 # Add any static environment variables needed by Django or your settings file here:
-#ENV DJANGO_SETTINGS_MODULE=home.settings.deploy
-ENV DJANGO_SETTINGS_MODULE=home/settings.py
+ENV DJANGO_SETTINGS_MODULE=home.deploy 
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
 RUN DATABASE_URL='' /venv/bin/python manage.py collectstatic --noinput
