@@ -13,12 +13,12 @@ pool:
 variables:
   PYTHON_VERSION: '3.7'
 
+steps:
 - task: CmdLine@2
   inputs:
-    script: 'SECRET_KEY = $(security-key)' >> ./home/deploy_security_key.py
-
-
-steps:
+    script: |
+      echo '# Security key
+          SECRET_KEY = '$(security-key)' >> ./home/deploy_security_key.py
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
@@ -27,7 +27,6 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/home.zip'
     replaceExistingArchive: true
     verbose: # (no value); this input is optional
-
 - task: FtpUpload@2
   inputs:
     
