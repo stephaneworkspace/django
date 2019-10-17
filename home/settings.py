@@ -25,7 +25,7 @@ SECRET_KEY = '5!k24b8at_+bumsosi4dxa41mi6-tbl@am)&j+$m-7%9%3g1)8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'stephane-bressani.ch', 'www.stephane-bressani.ch']
 
 
 # Application definition
