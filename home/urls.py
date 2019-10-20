@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from . import views
+from .class_views.swagger.swagger_schema_view import swagger_schema_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('admin/', admin.site.urls),
+    url(r'^swagger', swagger_schema_view.as_view(), name='swagger'),
     path('hello/', views.hello, name='hello'),
+    path('api/theme_natal', views.theme_natal, name='theme_natal'),
 ]
