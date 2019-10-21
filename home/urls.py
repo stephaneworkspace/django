@@ -23,8 +23,7 @@ from .class_views.astrology_birth_theme import astrology_birth_theme
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
-    url(r'^api/swagger', swagger_schema_view.as_view(), name='swagger'),
     url(r'^api/astrology_birth_theme', astrology_birth_theme.as_view(), name='astrology_birth_theme'),
-    path('hello/', views.hello, name='hello'),
-    path('api/theme_natal', views.theme_natal, name='theme_natal'),
+    url(r'^api/swagger', swagger_schema_view.as_view(), name='swagger'),
+    path('test/', views.test, name='test'),
 ]
