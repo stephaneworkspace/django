@@ -55,6 +55,7 @@ class astrology_birth_theme(generics.GenericAPIView):
                 ),
             ),
         ]
+    """
 
     def get(self, request, format=None):
         """

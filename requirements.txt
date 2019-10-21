@@ -3,6 +3,7 @@ djangorestframework>=3.5.4
 django-rest-swagger>=2.2.0<2.3.0
 flatlibfr>=0.0.1.dev4
 numpy>=1.17.2
+#PyYAML>=5.1.2<5.2
 #uwsgi>=2.0,<2.1
 #dj-database-url>=0.5,<0.6
 # Prevent pip from installing the binary wheel for psycopg2; see:
