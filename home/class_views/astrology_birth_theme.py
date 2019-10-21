@@ -1,5 +1,4 @@
-from django.http import HttpResponse, JsonResponse
-from django.core.exceptions import FieldError
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status , generics
@@ -7,15 +6,15 @@ from rest_framework.filters import BaseFilterBackend
 from rest_framework_swagger import renderers
 import coreapi
 import coreschema
-import json
+import simplejson as json
 from astropyfr import astropyfr
 
 FIELDERROR = "field_error"
 
 class FieldErrorsJson(Exception):
-    def __init__(self, message, json, code=None, params=None):
+    def __init__(self, message, json_err, code=None, params=None):
         super().__init__(message, code, params)
-        self.json = json
+        self.json = json.dumps(json_err)
         
 class astrology_birth_theme(generics.GenericAPIView):
     permission_classes = [AllowAny]
@@ -71,6 +70,8 @@ class astrology_birth_theme(generics.GenericAPIView):
         try:
             err = []
             field = []
+            
+            # Required
             field.append({"year_month_day": request.GET.get("year_month_day")})
             field.append({"hour_min": request.GET.get("hour_min")})
             field.append({"utc": request.GET.get("utc")})
@@ -83,10 +84,13 @@ class astrology_birth_theme(generics.GenericAPIView):
                         err.append({k: k + ' not in query'})
             if (len(err) > 0):
                 raise FieldErrorsJson(FIELDERROR, {FIELDERROR: err})
+            
+            # Optional
+            # -> No field here
         except FieldErrorsJson as error:
-            return JsonResponse(error.json, safe=None)
+            return HttpResponseBadRequest(error.json, content_type='application/json')
             #return Response(data=None, status=status.HTTP_400_BAD_REQUEST)
-        param = request.GET.get('param','All')
+        #param = request.GET.get('param','All')
         # QueryDict.fromkeys(['a', 'a', 'b'], value='val')
         astro = astropyfr.astropyfr('1986/04/03', '04:54', '+02:00', '46n12', '6e9')
         return HttpResponse(astro.get_data())
