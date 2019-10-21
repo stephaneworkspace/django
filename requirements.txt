@@ -1,5 +1,6 @@
 Django>=2.2rc1,<2.3
-django-rest-swagger>=3.5.4
+djangorestframework>=3.5.4
+django-rest-swagger>=2.2.0<2.3.0
 flatlibfr>=0.0.1.dev4
 numpy>=1.17.2
 #uwsgi>=2.0,<2.1
