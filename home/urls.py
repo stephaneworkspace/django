@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from . import views
-from .class_views.swagger.swagger_schema_view import swagger_schema_view
+from .class_views.swagger_schema_view import swagger_schema_view
+from .class_views.astrology_birth_theme import astrology_birth_theme
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
-    url(r'^swagger', swagger_schema_view.as_view(), name='swagger'),
+    url(r'^api/swagger', swagger_schema_view.as_view(), name='swagger'),
+    url(r'^api/astrology_birth_theme', astrology_birth_theme.as_view(), name='astrology_birth_theme'),
     path('hello/', views.hello, name='hello'),
     path('api/theme_natal', views.theme_natal, name='theme_natal'),
 ]

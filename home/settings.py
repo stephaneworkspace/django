@@ -59,7 +59,8 @@ TEMPLATES = [
         'DIRS': [
                 os.path.join(BASE_DIR, 'templates'),
                 os.path.join(BASE_DIR, 'home', 'templates', 'home'),
-                os.path.join(BASE_DIR, 'home', 'class_views', 'swagger'),
+                os.path.join(BASE_DIR, 'home', 'core'),
+                os.path.join(BASE_DIR, 'home', 'class_views'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -127,4 +128,9 @@ STATIC_URL = '/static/'
 
 # Swagger
 
-REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
+REST_FRAMEWORK = { 
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_FILTER_BACKENDS': (
+        'home.core.param_schema_filter.param_schema_filter',
+    ),
+}
