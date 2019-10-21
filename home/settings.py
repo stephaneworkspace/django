@@ -140,7 +140,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
     'https://www.stephane-bressani.ch', 'https://stephane-bressani.ch', 'https://home.stephane-bressani.ch',
 ]
