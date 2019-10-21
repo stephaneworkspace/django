@@ -59,6 +59,7 @@ TEMPLATES = [
         'DIRS': [
                 os.path.join(BASE_DIR, 'templates'),
                 os.path.join(BASE_DIR, 'home', 'templates', 'home'),
+                os.path.join(BASE_DIR, 'home', 'exception'),
                 os.path.join(BASE_DIR, 'home', 'core'),
                 os.path.join(BASE_DIR, 'home', 'class_views'),
             ],
