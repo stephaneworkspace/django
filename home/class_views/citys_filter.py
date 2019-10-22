@@ -8,9 +8,29 @@ from ..settings import BASE_DIR
 import coreapi
 import coreschema
 import os
-import json
+import simplejson as json
 with open(os.path.join(BASE_DIR, 'assets/citys.json')) as f:
     data = json.load(f)
+
+"""
+Lower case data['name'] of json in a array
+"""
+def name_json(sw_lower):
+    a = [] 
+    for d in data:
+        for k, v in d.items():
+            if k == 'name':
+                if sw_lower:
+                    a.append(v.lower())
+                else:
+                    a.append(v)
+    return a
+
+"""
+Filter comparaison between 2 array, return array of result filtered
+"""
+def filter_name(string, substr):
+    return [s for s in string if any(sub in s for sub in substr)]
 
 class citys_filter(generics.GenericAPIView):
     permission_classes = [AllowAny]
@@ -37,8 +57,8 @@ class citys_filter(generics.GenericAPIView):
         # -> No field here
             
         # Optional
-        if (request.GET.get('name') == None):
-            f.append({'name': ''})
+        if request.GET.get('name') == None or request.GET.get('name') == '':
+            return HttpResponse('[]')
         else:
             f.append({'name': request.GET.get('name')})
     
@@ -51,23 +71,14 @@ class citys_filter(generics.GenericAPIView):
         #return JsonResponse([x for x in data if x['name']])
         
         """
-        a = []
-        sw = False
-        for d in data:
-            sw = False
-            for k, v in d.items():
-                if (k == 'name'):
-                    sw = filter(filter_name, v)
-            if (sw):
-                a.append(d)
-        return HttpResponse(a)
-        
-        
+        Filter in lowercase
         """
         filter_arr = []
         filter_arr = filter_name(name_json(True), [f_dict['name'].lower()])
-        print(filter_arr)
         
+        """
+        Return result
+        """
         arr = []
         sw = False 
         for d in data:
@@ -78,40 +89,4 @@ class citys_filter(generics.GenericAPIView):
                         sw = True
             if sw:
                 arr.append(d)
-        return HttpResponse(arr)
-
-        # astro = astropyfr.astropyfr(f_dict["year_month_day"], f_dict["hour_min"], utc, lat, lng)
-        return HttpResponse('ok + ' + f_dict['name'])
-
-def name_json(sw_lower):
-    a = [] 
-    for d in data:
-        for k, v in d.items():
-            if k == 'name':
-                if sw_lower:
-                    a.append(v.lower())
-                else:
-                    a.append(v)
-    return a
-
-string_total = ['tes', 'test', 't', 'test1234', '1234test']
-def filter_name(string, substr):
-    
-    # return [s for s in string if any(sub in s for sub in substr)]
-
-    return [s for s in string if any(sub in s for sub in substr)]
- 
-    #return[s for s in string 
-    #if re.match(r'[^\d]+|^', s).group(0) in substr]
-"""
-def filter_name(name):
-    a = [] 
-    for d in data:
-        for k, v in d.items():
-            if (k == 'name'):
-                a.append(v)
-    if (name in a):
-        return True
-    else:
-        return False
-"""
+        return HttpResponse(json.dumps(arr, encoding="utf-8", ensure_ascii=False, indent=4))
