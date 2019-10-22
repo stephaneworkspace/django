@@ -21,12 +21,13 @@ def offset(target):
         tz_target = timezone(tf.certain_timezone_at(lng=lng, lat=lat))
 
         offset = tz_target.utcoffset(dt)
-        #offset -= tz_target.dst(datetime_object)
-        print(offset)
-        
-        offset = tz_target.utcoffset(datetime.now())
-        #offset -= tz_target.dst(datetime.now())
-        print(offset)
+        #offset -= tz_target.dst(datetime_object) # not used here (summer time)
+        seconds = offset.total_seconds()
+        hours_str = str(seconds // 3600).replace('.', ':')
+        if (offset.days < 0):
+            return(hours_str)
+        else:
+            return('+' + hours_str)
     except UnknownTimeZoneError:
         err = []
         err.append({'lat': 'Unknow time zone'})
