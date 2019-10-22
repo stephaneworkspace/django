@@ -83,5 +83,5 @@ class astrology_birth_theme(generics.GenericAPIView):
         except FieldErrorsJson as error:
             return HttpResponseBadRequest(error.json, content_type='application/json')
         f_dict = { k:v for d in f for k,v in d.items() }
-        astro = astropyfr.astropyfr(f_dict["year_month_day"], f_dict["hour_min"], f_dict["utc"], f_dict["geo_pos_ns"], f_dict["geo_pos_we"])
+        astro = astropyfr.astropyfr(f_dict["year_month_day"], f_dict["hour_min"], f_dict["utc"], float(f_dict["geo_pos_ns"]), float(f_dict["geo_pos_we"]))
         return HttpResponse(astro.get_data())
