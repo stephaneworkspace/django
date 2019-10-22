@@ -8,7 +8,8 @@ import coreapi
 import coreschema
 from astropyfr import astropyfr
 from ..exception.field_errors_json import FieldErrorsJson, FIELDERROR
-        
+from ..core.time_tools import offset, concat
+
 class astrology_birth_theme(generics.GenericAPIView):
     permission_classes = [AllowAny]
     
@@ -31,27 +32,19 @@ class astrology_birth_theme(generics.GenericAPIView):
                 ),
             ),
             coreapi.Field(
-                name="utc",
+                name="lat",
                 required=True,
                 location="query",
                 schema=coreschema.String(
-                    description="Utc of birth format as : +hh:mm"
+                    description="Latitude of birth"
                 ),
             ),
             coreapi.Field(
-                name="geo_pos_ns",
+                name="lng",
                 required=True,
                 location="query",
                 schema=coreschema.String(
-                    description="Geo pos Nord/Sud as HxM : _n_or _s_"
-                ),
-            ),
-            coreapi.Field(
-                name="geo_pos_we",
-                required=True,
-                location="query",
-                schema=coreschema.String(
-                    description="Geo pos Est/West as HxM : _e_or _w_"
+                    description="Longitude of birth"
                 ),
             ),
         ]
@@ -67,9 +60,8 @@ class astrology_birth_theme(generics.GenericAPIView):
             # Required
             f.append({"year_month_day": request.GET.get("year_month_day")})
             f.append({"hour_min": request.GET.get("hour_min")})
-            f.append({"utc": request.GET.get("utc")})
-            f.append({"geo_pos_ns": request.GET.get("geo_pos_ns")})
-            f.append({"geo_pos_we": request.GET.get("geo_pos_we")})
+            f.append({"lat": request.GET.get("lat")})
+            f.append({"lng": request.GET.get("lng")})
             
             for item in f:
                 for k, v in item.items():
@@ -82,6 +74,81 @@ class astrology_birth_theme(generics.GenericAPIView):
             # -> No field here
         except FieldErrorsJson as error:
             return HttpResponseBadRequest(error.json, content_type='application/json')
+        
+        """
+        Add form query field to dictionary
+        """
         f_dict = { k:v for d in f for k,v in d.items() }
+        
+        """
+        Check if float latitude and longitude is valid
+        and then check if date time is valid
+        """
+        try:
+            for d in f:
+                for k, v in d.items():
+                    if (k == 'lat'):
+                        lat = float(v)
+                    if (k == 'lng'):
+                        lng = float(v)
+        except ValueError as error:
+            try:
+                err = []
+                err.append({k: str(error)})
+                raise FieldErrorsJson(FIELDERROR, {FIELDERROR: err})
+            except FieldErrorsJson as error:
+                return HttpResponseBadRequest(error.json, content_type='application/json')
+        
+        """
+        Check if date time is valid
+        """
+        try:
+            dt = concat(f_dict["year_month_day"], f_dict["hour_min"])
+        except FieldErrorsJson as error:
+            return HttpResponseBadRequest(error.json, content_type='application/json')
+            
+        """
+        Compute utc
+        """
+        dict_offset = dict({'lat': lat, 'lng': lng, 'dt': dt})
+        try:
+            offset(dict_offset)
+        except FieldErrorsJson as error:
+            return HttpResponseBadRequest(error.json, content_type='application/json')
+        """
+        try:
+            tf = TimezoneFinder(in_memory=True)
+            tz_target = timezone(tf.certain_timezone_at(lng=lng, lat=lat))
+            datetime_str = f_dict["year_month_day"] + ' ' + f_dict["hour_min"]
+            datetime_object = datetime.strptime(datetime_str, '%Y/%m/%d %H:%M')
+            
+            offset = tz_target.utcoffset(datetime_object)
+            #offset -= tz_target.dst(datetime_object)
+            print(offset)
+            
+            offset = tz_target.utcoffset(datetime.now())
+            #offset -= tz_target.dst(datetime.now())
+            print(offset)
+        except pytz.exceptions.UnknownTimeZoneError:
+            print('test 46')
+            pass
+        except ValueError as error:
+            pass
+        """
+        """
         astro = astropyfr.astropyfr(f_dict["year_month_day"], f_dict["hour_min"], f_dict["utc"], float(f_dict["geo_pos_ns"]), float(f_dict["geo_pos_we"]))
         return HttpResponse(astro.get_data())
+        """
+        return HttpResponse('ok')
+    
+    """
+    timezonefinder>=4.1.0
+
+    longitude = 13.358
+    latitude = 52.5061
+    tf = TimezoneFinder(in_memory=True)
+    print(tf.timezone_at(lng=longitude, lat=latitude))
+    tz_target = timezone(tf.certain_timezone_at(lng=longitude, lat=latitude))
+    print(datetime.now())
+    print(tz_target.utcoffset(datetime.now()))
+    """
