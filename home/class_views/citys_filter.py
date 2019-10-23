@@ -12,6 +12,10 @@ import removeaccents
 import simplejson as json
 with open(os.path.join(BASE_DIR, 'assets/citys.json')) as f:
     data = json.load(f)
+    data.sort(key=lambda s : s['name'])
+
+with open(os.path.join(BASE_DIR, 'assets/flags.json')) as f:
+    country_data = json.load(f)
 
 def name_json(sw_lower_and_no_accent):
     """
@@ -27,6 +31,16 @@ def name_json(sw_lower_and_no_accent):
                     a.append(v)
     return a
 
+def flag(country_iso_alpha_2):
+    """
+    Return flag base64 png 20x30 by country isoAlpha2
+    """
+    for d in country_data:
+        for k, v in d.items():
+            if k == 'isoAlpha2':
+                if v == country_iso_alpha_2:
+                    return d['flag']
+    return ''
 
 def filter_name(string, substr):
     """
@@ -81,6 +95,7 @@ class citys_filter(generics.GenericAPIView):
         Return result
         """
         arr = []
+        arr_country = []
         sw = False 
         for d in data:
             sw = False
@@ -89,5 +104,16 @@ class citys_filter(generics.GenericAPIView):
                     if removeaccents.remove_accents(v.lower()) in filter_arr:
                         sw = True
             if sw:
+                for cd in country_data:
+                    sw_next = True
+                    if d['country'] in cd['isoAlpha2']:
+                        for ac in arr_country:
+                            if d['country'] in ac['country']:
+                                sw_next = False
+                        if sw_next:        
+                            arr_country.append({'country': d['country'], 'flag': flag(d['country'])})
+                #d['flag'] = flag(d['country'])
                 arr.append(d)
-        return HttpResponse(json.dumps(arr, encoding="utf-8", ensure_ascii=False, indent=4))
+        json_return = { 'filter' : arr, 'country': arr_country }
+
+        return HttpResponse(json.dumps(json_return, encoding="utf-8", ensure_ascii=False, indent=4, sort_keys=False))
