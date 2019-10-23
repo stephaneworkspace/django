@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status , generics
 from rest_framework.filters import BaseFilterBackend
 from rest_framework_swagger import renderers
-from ..settings import BASE_DIR, STATIC_ROOT
+from ..settings import BASE_DIR
 import coreapi
 import coreschema
 import os
