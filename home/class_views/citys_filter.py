@@ -4,17 +4,19 @@ from rest_framework.response import Response
 from rest_framework import status , generics
 from rest_framework.filters import BaseFilterBackend
 from rest_framework_swagger import renderers
-from ..settings import BASE_DIR
+from ..settings import BASE_DIR, STATIC_ROOT
 import coreapi
 import coreschema
 import os
 import removeaccents
 import simplejson as json
-with open(os.path.join(BASE_DIR, 'assets/citys.json')) as f:
+#with open(os.path.join(BASE_DIR, 'assets/citys.json')) as f:
+with open(os.path.join(STATIC_ROOT, 'citys.json')) as f:
     data = json.load(f)
     data.sort(key=lambda s : s['name'])
 
-with open(os.path.join(BASE_DIR, 'assets/flags.json')) as f:
+#with open(os.path.join(BASE_DIR, 'assets/flags.json')) as f:
+with open(os.path.join(STATIC_ROOT, 'flags.json')) as f:
     country_data = json.load(f)
 
 def name_json(sw_lower_and_no_accent):
