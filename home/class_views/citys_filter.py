@@ -97,6 +97,7 @@ class citys_filter(generics.GenericAPIView):
         arr = []
         arr_country = []
         sw = False 
+        i = 0
         for d in data:
             sw = False
             for k, v in d.items():
@@ -113,6 +114,8 @@ class citys_filter(generics.GenericAPIView):
                         if sw_next:        
                             arr_country.append({'country': d['country'], 'flag': flag(d['country'])})
                 #d['flag'] = flag(d['country'])
+                i += 1
+                d['id'] = i
                 arr.append(d)
         json_return = { 'filter' : arr, 'country': arr_country }
 
