@@ -8,34 +8,38 @@ from ..settings import BASE_DIR
 import coreapi
 import coreschema
 import os
+import removeaccents
 import simplejson as json
 with open(os.path.join(BASE_DIR, 'assets/citys.json')) as f:
     data = json.load(f)
 
-"""
-Lower case data['name'] of json in a array
-"""
-def name_json(sw_lower):
+def name_json(sw_lower_and_no_accent):
+    """
+    Lower case and without accent for data['name'] in a json array
+    """
     a = [] 
     for d in data:
         for k, v in d.items():
             if k == 'name':
-                if sw_lower:
-                    a.append(v.lower())
+                if sw_lower_and_no_accent:
+                    a.append(removeaccents.remove_accents(v.lower()))
                 else:
                     a.append(v)
     return a
 
-"""
-Filter comparaison between 2 array, return array of result filtered
-"""
+
 def filter_name(string, substr):
+    """
+    Filter comparaison between 2 array, return array of result filtered
+    """
     return [s for s in string if any(sub in s for sub in substr)]
 
 class citys_filter(generics.GenericAPIView):
     permission_classes = [AllowAny]
-    
     def get_param_fields(self, view):
+        """
+        Query param for method get()
+        """
         return [
             coreapi.Field(
                 name='name',
@@ -67,14 +71,11 @@ class citys_filter(generics.GenericAPIView):
         """
         f_dict = { k:v for d in f for k,v in d.items() }
         
-        # print(data)
-        #return JsonResponse([x for x in data if x['name']])
-        
         """
         Filter in lowercase
         """
         filter_arr = []
-        filter_arr = filter_name(name_json(True), [f_dict['name'].lower()])
+        filter_arr = filter_name(name_json(True), [removeaccents.remove_accents(f_dict['name'].lower())])
         
         """
         Return result
@@ -85,7 +86,7 @@ class citys_filter(generics.GenericAPIView):
             sw = False
             for k, v in d.items():
                 if k == 'name':
-                    if v.lower() in filter_arr:
+                    if removeaccents.remove_accents(v.lower()) in filter_arr:
                         sw = True
             if sw:
                 arr.append(d)

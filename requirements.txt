@@ -1,11 +1,12 @@
 Django>=2.2rc1,<2.3
 djangorestframework>=3.5.4
 django-rest-swagger>=2.2.0<2.3.0
-django-cors-headers>=3.1.1
+django-cors-headers==3.1.1
 flatlibfr>=0.0.1.dev4
-numpy>=1.17.2
-timezonefinder>=4.1.0
-simplejson>=3.16.1
+numpy==1.17.2
+timezonefinder==4.1.0
+simplejson==3.16.0
+removeaccents==0.1
 #PyYAML>=5.1.2<5.2
 #uwsgi>=2.0,<2.1
 #dj-database-url>=0.5,<0.6
