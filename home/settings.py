@@ -131,13 +131,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "assets"),
-    '/home/assets/',
-]
-
-STATIC_ROOT = "/home/assets/"
-
 # Swagger
 
 REST_FRAMEWORK = { 

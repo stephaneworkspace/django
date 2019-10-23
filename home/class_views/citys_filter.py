@@ -10,13 +10,11 @@ import coreschema
 import os
 import removeaccents
 import simplejson as json
-#with open(os.path.join(BASE_DIR, 'assets/citys.json')) as f:
-with open(os.path.join(STATIC_ROOT, 'citys.json')) as f:
+with open(os.path.join(BASE_DIR, 'datas/citys.json')) as f:
     data = json.load(f)
     data.sort(key=lambda s : s['name'])
 
-#with open(os.path.join(BASE_DIR, 'assets/flags.json')) as f:
-with open(os.path.join(STATIC_ROOT, 'flags.json')) as f:
+with open(os.path.join(BASE_DIR, 'datas/flags.json')) as f:
     country_data = json.load(f)
 
 def name_json(sw_lower_and_no_accent):
