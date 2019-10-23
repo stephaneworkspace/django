@@ -133,10 +133,10 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "assets"),
-    '/var/www/static/',
+    '/home/assets/',
 ]
 
-STATIC_ROOT = "/var/www/example.com/static/"
+STATIC_ROOT = "/home/assets/"
 
 # Swagger
 
