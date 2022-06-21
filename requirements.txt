@@ -3,7 +3,7 @@ djangorestframework>=3.5.4
 django-rest-swagger>=2.2.0<2.3.0
 django-cors-headers==3.1.1
 flatlibfr>=0.0.1.dev4
-numpy==1.17.2
+numpy==1.22.0
 timezonefinder==4.1.0
 simplejson==3.16.0
 removeaccents==0.1
